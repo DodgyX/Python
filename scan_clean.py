@@ -14,28 +14,20 @@ def delete_old_files(folder):
                 os.remove(path)
                 print(f"Deleted file: {path}")
 
-            elif os.path.isdir(path) and (now - os.stat(path).st_mtime) > threshold_seconds:
-                shutil.rmtree(path)
-                print(f"Deleted folder: {path}")
-            
-            elif os.path.isdir(path) and os.path.getsize(path) == 0:
-                shutil.rmtree(path)
-                print(f"Deleted folder: {path}")
-
             elif os.path.isdir(path):
-                delete_old_files(path)
+                if os.path.isdir(path) and (now - os.stat(path).st_mtime) > threshold_seconds:
+                    shutil.rmtree(path)
+                    print(f"Deleted folder 1: {path}")
+                
+                elif os.path.isdir(path) and not os.listdir(path):
+                    os.rmdir(path)
+                    print(f"Deleted folder 2: {path}")
+
+                elif os.path.isdir(path):
+                    delete_old_files(path)
 
         except Exception as e:
             print(f"Error deleting {path}: {e}")
 
 
-delete_old_files(r'C:\Users\yoann.wiss\Desktop\Nouveau dossier\CCE-BRO')
-delete_old_files(r'C:\Users\yoann.wiss\Desktop\Nouveau dossier\CID-KYO')
-delete_old_files(r'C:\Users\yoann.wiss\Desktop\Nouveau dossier\COURRIER-KYO')
-delete_old_files(r'C:\Users\yoann.wiss\Desktop\Nouveau dossier\CREATION-E-BRO')
-delete_old_files(r'C:\Users\yoann.wiss\Desktop\Nouveau dossier\CREATION-E-KYO')
-delete_old_files(r'C:\Users\yoann.wiss\Desktop\Nouveau dossier\CRMH-KYO')
-delete_old_files(r'C:\Users\yoann.wiss\Desktop\Nouveau dossier\DIC-E-KYO')
-delete_old_files(r'C:\Users\yoann.wiss\Desktop\Nouveau dossier\DOCPAT-KYO')
-delete_old_files(r'C:\Users\yoann.wiss\Desktop\Nouveau dossier\RH-KYO')
-delete_old_files(r'C:\Users\yoann.wiss\Desktop\Nouveau dossier\SG-KYO')
+delete_old_files(r'C:\Users\yoann.wiss\Desktop\Nouveau dossier')
